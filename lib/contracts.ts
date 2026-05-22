@@ -27,10 +27,30 @@ export const BONDING_CURVE_ABI = [
     outputs: [{ name: "", type: "uint256" }],
   },
   {
+    name: "getBuyPriceFor",
+    type: "function",
+    stateMutability: "view",
+    inputs: [
+      { name: "teamCode", type: "string" },
+      { name: "amount",   type: "uint256" },
+    ],
+    outputs: [{ name: "", type: "uint256" }],
+  },
+  {
     name: "getSellPrice",
     type: "function",
     stateMutability: "view",
     inputs: [{ name: "teamCode", type: "string" }],
+    outputs: [{ name: "", type: "uint256" }],
+  },
+  {
+    name: "getSellPriceFor",
+    type: "function",
+    stateMutability: "view",
+    inputs: [
+      { name: "teamCode", type: "string" },
+      { name: "amount",   type: "uint256" },
+    ],
     outputs: [{ name: "", type: "uint256" }],
   },
   {
@@ -39,25 +59,31 @@ export const BONDING_CURVE_ABI = [
     stateMutability: "view",
     inputs: [{ name: "teamCode", type: "string" }],
     outputs: [
-      { name: "token", type: "address" },
-      { name: "teamCode", type: "string" },
-      { name: "supply", type: "uint256" },
-      { name: "reserve", type: "uint256" },
-      { name: "active", type: "bool" },
+      { name: "token",    type: "address" },
+      { name: "teamCode", type: "string"  },
+      { name: "supply",   type: "uint256" },
+      { name: "reserve",  type: "uint256" },
+      { name: "active",   type: "bool"    },
     ],
   },
   {
     name: "buy",
     type: "function",
     stateMutability: "payable",
-    inputs: [{ name: "teamCode", type: "string" }],
+    inputs: [
+      { name: "teamCode", type: "string"  },
+      { name: "amount",   type: "uint256" },
+    ],
     outputs: [],
   },
   {
     name: "sell",
     type: "function",
     stateMutability: "nonpayable",
-    inputs: [{ name: "teamCode", type: "string" }],
+    inputs: [
+      { name: "teamCode", type: "string"  },
+      { name: "amount",   type: "uint256" },
+    ],
     outputs: [],
   },
 ] as const
@@ -76,11 +102,11 @@ export const GRIEF_TOKEN_ABI = [
     stateMutability: "nonpayable",
     inputs: [
       { name: "spender", type: "address" },
-      { name: "amount", type: "uint256" },
+      { name: "amount",  type: "uint256" },
     ],
     outputs: [{ name: "", type: "bool" }],
   },
 ] as const
 
 export const ORACLE_ADDRESS = process.env.NEXT_PUBLIC_SENTIMENT_ORACLE as `0x${string}`
-export const CURVE_ADDRESS = process.env.NEXT_PUBLIC_BONDING_CURVE as `0x${string}`
+export const CURVE_ADDRESS  = process.env.NEXT_PUBLIC_BONDING_CURVE   as `0x${string}`

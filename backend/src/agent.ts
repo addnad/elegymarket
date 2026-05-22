@@ -22,24 +22,33 @@ export async function fetchSentimentScore(
     messages: [
       {
         role: "system",
-        content:
-          "You are a sports sentiment analyst for the Elegy grief token protocol. You analyze fan reactions to World Cup eliminations and return structured JSON only.",
+        content: "You are a sports sentiment analyst for the Elegy grief token protocol. You analyze fan reactions to World Cup moments and return structured JSON only.",
       },
       {
         role: "user",
-        content: `Analyze fan grief sentiment for ${teamName} (${teamCode}) being eliminated from the World Cup.
+        content: `Analyze fan grief and outrage sentiment for ${teamName} (${teamCode}) in the current World Cup.
 
-Rate the grief level 0-100 where:
-- 100 = peak grief, devastating unexpected loss, massive outpouring of sadness/anger
-- 75  = very upset fanbase, heavy disappointment, lots of emotional reactions
-- 50  = moderate grief, disappointing but somewhat expected result
-- 25  = mild sadness, fans think team had a decent run
-- 0   = fans fully moved on, no grief content remaining
+Consider ALL of these grief triggers, not just elimination:
+- Team eliminated from tournament
+- Controversial VAR decisions that went against the team
+- Disputed penalties awarded or denied
+- Controversial red cards
+- Unexpected defeats in group stage or knockouts
+- Viral moments of fan outrage on social media
+- Referee decisions that sparked widespread anger
+- Any match controversy involving this team
 
-Consider: how passionate is this fanbase, how far did they expect to go, cultural significance of football in this country, typical fan reaction patterns.
+Rate the current grief/outrage level 0-100 where:
+- 100 = peak grief or outrage, massive fan reaction, viral controversy
+- 75  = very upset fanbase, significant emotional reaction online
+- 50  = moderate disappointment or controversy, notable but not explosive
+- 25  = mild frustration, minor controversy or expected result
+- 0   = no grief, team doing well or fans fully recovered
 
-Respond with ONLY valid JSON, no markdown, no explanation:
-{"score": <integer 0-100>, "reasoning": "<one sentence, max 20 words>"}`,
+Consider: how passionate is this fanbase, cultural significance of football in this country, severity of the controversial moment, how recent it was.
+
+Respond with ONLY valid JSON, no markdown:
+{"score": <integer 0-100>, "reasoning": "<one sentence max 20 words>"}`,
       },
     ],
   });
@@ -66,7 +75,8 @@ export async function updateSentiment(teamCode: string): Promise<{
     FRA: "France",  GER: "Germany", ESP: "Spain",
     POR: "Portugal", NED: "Netherlands", ITA: "Italy",
     USA: "United States", MEX: "Mexico", JPN: "Japan",
-    KOR: "South Korea", SEN: "Senegal", NGA: "Nigeria", MAR: "Morocco",
+    KOR: "South Korea", SEN: "Senegal", NGA: "Nigeria",
+    MAR: "Morocco",
   };
 
   const teamName = teamNames[teamCode] || teamCode;
