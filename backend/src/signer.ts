@@ -10,7 +10,7 @@ const ORACLE_ABI = [
 
 function getWallet(): ethers.Wallet {
   const privateKey = process.env.ORACLE_SIGNER_PRIVATE_KEY!;
-  const rpc = process.env.NEXT_PUBLIC_XLAYER_TESTNET_RPC!;
+  const rpc = process.env.NEXT_PUBLIC_XLAYER_MAINNET_RPC!;
   const provider = new ethers.JsonRpcProvider(rpc);
   return new ethers.Wallet(privateKey, provider);
 }
