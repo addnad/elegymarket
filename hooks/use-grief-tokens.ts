@@ -3,16 +3,72 @@
 import { useReadContracts } from "wagmi"
 import { formatEther } from "viem"
 import { SENTIMENT_ORACLE_ABI, BONDING_CURVE_ABI, ORACLE_ADDRESS, CURVE_ADDRESS } from "@/lib/contracts"
-import { xlayerTestnet } from "@/lib/web3"
+import { xlayerMainnet } from "@/lib/web3"
 
-const TEAM_CODES = ["ENG", "BRA", "FRA", "MAR", "ARG"]
+export const TEAM_CODES = [
+  "ENG","FRA","GER","ESP","POR","NED","BEL","CRO","SUI","AUT","NOR","SCO","SWE","TUR","BIH","CZE",
+  "ALG","CPV","EGY","GHA","CIV","MAR","SEN","RSA","TUN","COD",
+  "AUS","IRN","JPN","JOR","QAT","KSA","KOR","UZB","IRQ",
+  "ARG","BRA","COL","ECU","PAR","URU",
+  "USA","CAN","MEX","CUW","HAI","PAN",
+  "NZL",
+]
 
-const TEAM_META: Record<string, { name: string; flag: string; eliminatedAt: string }> = {
-  ENG: { name: "England",   flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", eliminatedAt: "Quarter Final" },
-  BRA: { name: "Brazil",    flag: "🇧🇷",         eliminatedAt: "Round of 16"  },
-  FRA: { name: "France",    flag: "🇫🇷",         eliminatedAt: "Semi Final"   },
-  MAR: { name: "Morocco",   flag: "🇲🇦",         eliminatedAt: "Quarter Final"},
-  ARG: { name: "Argentina", flag: "🇦🇷",         eliminatedAt: "Round of 16"  },
+export const TEAM_META: Record<string, { name: string; flag: string; eliminatedAt: string }> = {
+  // UEFA
+  ENG: { name: "England",                flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", eliminatedAt: "TBD" },
+  FRA: { name: "France",                 flag: "🇫🇷", eliminatedAt: "TBD" },
+  GER: { name: "Germany",                flag: "🇩🇪", eliminatedAt: "TBD" },
+  ESP: { name: "Spain",                  flag: "🇪🇸", eliminatedAt: "TBD" },
+  POR: { name: "Portugal",               flag: "🇵🇹", eliminatedAt: "TBD" },
+  NED: { name: "Netherlands",            flag: "🇳🇱", eliminatedAt: "TBD" },
+  BEL: { name: "Belgium",               flag: "🇧🇪", eliminatedAt: "TBD" },
+  CRO: { name: "Croatia",               flag: "🇭🇷", eliminatedAt: "TBD" },
+  SUI: { name: "Switzerland",            flag: "🇨🇭", eliminatedAt: "TBD" },
+  AUT: { name: "Austria",               flag: "🇦🇹", eliminatedAt: "TBD" },
+  NOR: { name: "Norway",                flag: "🇳🇴", eliminatedAt: "TBD" },
+  SCO: { name: "Scotland",              flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", eliminatedAt: "TBD" },
+  SWE: { name: "Sweden",               flag: "🇸🇪", eliminatedAt: "TBD" },
+  TUR: { name: "Turkey",               flag: "🇹🇷", eliminatedAt: "TBD" },
+  BIH: { name: "Bosnia & Herzegovina", flag: "🇧🇦", eliminatedAt: "TBD" },
+  CZE: { name: "Czechia",              flag: "🇨🇿", eliminatedAt: "TBD" },
+  // CAF
+  ALG: { name: "Algeria",              flag: "🇩🇿", eliminatedAt: "TBD" },
+  CPV: { name: "Cape Verde",           flag: "🇨🇻", eliminatedAt: "TBD" },
+  EGY: { name: "Egypt",               flag: "🇪🇬", eliminatedAt: "TBD" },
+  GHA: { name: "Ghana",               flag: "🇬🇭", eliminatedAt: "TBD" },
+  CIV: { name: "Ivory Coast",         flag: "🇨🇮", eliminatedAt: "TBD" },
+  MAR: { name: "Morocco",             flag: "🇲🇦", eliminatedAt: "TBD" },
+  SEN: { name: "Senegal",             flag: "🇸🇳", eliminatedAt: "TBD" },
+  RSA: { name: "South Africa",        flag: "🇿🇦", eliminatedAt: "TBD" },
+  TUN: { name: "Tunisia",             flag: "🇹🇳", eliminatedAt: "TBD" },
+  COD: { name: "DR Congo",            flag: "🇨🇩", eliminatedAt: "TBD" },
+  // AFC
+  AUS: { name: "Australia",           flag: "🇦🇺", eliminatedAt: "TBD" },
+  IRN: { name: "Iran",                flag: "🇮🇷", eliminatedAt: "TBD" },
+  JPN: { name: "Japan",               flag: "🇯🇵", eliminatedAt: "TBD" },
+  JOR: { name: "Jordan",              flag: "🇯🇴", eliminatedAt: "TBD" },
+  QAT: { name: "Qatar",               flag: "🇶🇦", eliminatedAt: "TBD" },
+  KSA: { name: "Saudi Arabia",        flag: "🇸🇦", eliminatedAt: "TBD" },
+  KOR: { name: "South Korea",         flag: "🇰🇷", eliminatedAt: "TBD" },
+  UZB: { name: "Uzbekistan",          flag: "🇺🇿", eliminatedAt: "TBD" },
+  IRQ: { name: "Iraq",                flag: "🇮🇶", eliminatedAt: "TBD" },
+  // CONMEBOL
+  ARG: { name: "Argentina",           flag: "🇦🇷", eliminatedAt: "TBD" },
+  BRA: { name: "Brazil",              flag: "🇧🇷", eliminatedAt: "TBD" },
+  COL: { name: "Colombia",            flag: "🇨🇴", eliminatedAt: "TBD" },
+  ECU: { name: "Ecuador",             flag: "🇪🇨", eliminatedAt: "TBD" },
+  PAR: { name: "Paraguay",            flag: "🇵🇾", eliminatedAt: "TBD" },
+  URU: { name: "Uruguay",             flag: "🇺🇾", eliminatedAt: "TBD" },
+  // CONCACAF
+  USA: { name: "United States",       flag: "🇺🇸", eliminatedAt: "TBD" },
+  CAN: { name: "Canada",              flag: "🇨🇦", eliminatedAt: "TBD" },
+  MEX: { name: "Mexico",              flag: "🇲🇽", eliminatedAt: "TBD" },
+  CUW: { name: "Curaçao",            flag: "🇨🇼", eliminatedAt: "TBD" },
+  HAI: { name: "Haiti",               flag: "🇭🇹", eliminatedAt: "TBD" },
+  PAN: { name: "Panama",              flag: "🇵🇦", eliminatedAt: "TBD" },
+  // OFC
+  NZL: { name: "New Zealand",         flag: "🇳🇿", eliminatedAt: "TBD" },
 }
 
 const ETH_USD = 3000
@@ -24,21 +80,21 @@ export function useGriefTokens() {
       abi: SENTIMENT_ORACLE_ABI,
       functionName: "getScore" as const,
       args: [code] as [string],
-      chainId: xlayerTestnet.id,
+      chainId: xlayerMainnet.id,
     },
     {
       address: CURVE_ADDRESS,
       abi: BONDING_CURVE_ABI,
       functionName: "getBuyPrice" as const,
       args: [code] as [string],
-      chainId: xlayerTestnet.id,
+      chainId: xlayerMainnet.id,
     },
     {
       address: CURVE_ADDRESS,
       abi: BONDING_CURVE_ABI,
       functionName: "tokens" as const,
       args: [code] as [string],
-      chainId: xlayerTestnet.id,
+      chainId: xlayerMainnet.id,
     },
   ])
 
