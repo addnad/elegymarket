@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useAccount, useBalance, useWriteContract, useWaitForTransactionReceipt, useReadContract, useSwitchChain } from "wagmi"
 import { formatEther } from "viem"
 import { X, Flame, TrendingUp, TrendingDown, Loader2, CheckCircle, AlertCircle, Plus, Minus } from "lucide-react"
-import { xlayerTestnet } from "@/lib/web3"
+import { xlayerMainnet } from "@/lib/web3"
 import { CURVE_ADDRESS } from "@/lib/contracts"
 
 const BONDING_CURVE_ABI = [
@@ -63,14 +63,14 @@ export function TradeModal({ token, onClose }: TradeModalProps) {
   const [amount, setAmount] = useState(1)
   const { address, isConnected, chainId } = useAccount()
   const { switchChain } = useSwitchChain()
-  const isWrongNetwork = isConnected && chainId !== xlayerTestnet.id
+  const isWrongNetwork = isConnected && chainId !== xlayerMainnet.id
 
   const { data: buyPriceBigInt, isLoading: buyLoading } = useReadContract({
     address: CURVE_ADDRESS,
     abi: BONDING_CURVE_ABI,
     functionName: "getBuyPriceFor",
     args: [token.teamCode, BigInt(amount)],
-    chainId: xlayerTestnet.id,
+    chainId: xlayerMainnet.id,
     query: { refetchInterval: 10_000 },
   })
 
@@ -79,11 +79,11 @@ export function TradeModal({ token, onClose }: TradeModalProps) {
     abi: BONDING_CURVE_ABI,
     functionName: "getSellPriceFor",
     args: [token.teamCode, BigInt(amount)],
-    chainId: xlayerTestnet.id,
+    chainId: xlayerMainnet.id,
     query: { refetchInterval: 10_000 },
   })
 
-  const { data: balance } = useBalance({ address, chainId: xlayerTestnet.id })
+  const { data: balance } = useBalance({ address, chainId: xlayerMainnet.id })
   const { writeContract, data: txHash, isPending, error: writeError, reset } = useWriteContract()
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash: txHash })
 
@@ -101,7 +101,7 @@ export function TradeModal({ token, onClose }: TradeModalProps) {
       args: [token.teamCode, BigInt(amount)],
       value: buyValue,
       gas: BigInt(500000),
-      chainId: xlayerTestnet.id,
+      chainId: xlayerMainnet.id,
     })
   }
 
@@ -112,7 +112,7 @@ export function TradeModal({ token, onClose }: TradeModalProps) {
       functionName: "sell",
       args: [token.teamCode, BigInt(amount)],
       gas: BigInt(500000),
-      chainId: xlayerTestnet.id,
+      chainId: xlayerMainnet.id,
     })
   }
 
@@ -152,7 +152,7 @@ export function TradeModal({ token, onClose }: TradeModalProps) {
         )}
         {txHash && (
           <button
-            onClick={() => window.open("https://www.oklink.com/xlayer-test/tx/" + txHash, "_blank")}
+            onClick={() => window.open("https://www.oklink.com/xlayer/tx/" + txHash, "_blank")}
             className="text-xs text-lime underline block mx-auto"
           >
             View on explorer
@@ -175,7 +175,7 @@ export function TradeModal({ token, onClose }: TradeModalProps) {
         <p className="text-sm font-medium">Wrong Network</p>
         <p className="text-xs text-muted-foreground">Switch to X Layer Testnet to trade</p>
         <button
-          onClick={() => switchChain({ chainId: xlayerTestnet.id })}
+          onClick={() => switchChain({ chainId: xlayerMainnet.id })}
           className="w-full py-2 border border-lime/40 text-lime hover:bg-lime/10 transition-colors text-sm"
         >
           Switch to X Layer Testnet
