@@ -88,17 +88,17 @@ export function usePortfolio() {
 
   const { data: balanceData, isLoading } = useReadContracts({
     contracts: balanceContracts,
-    query: { enabled: !!address, refetchInterval: 15_000 },
+    query: { enabled: !!address, refetchInterval: 60_000, staleTime: 30_000 },
   })
 
   const { data: sellData } = useReadContracts({
     contracts: sellPriceContracts,
-    query: { refetchInterval: 15_000 },
+    query: { refetchInterval: 60_000, staleTime: 30_000 },
   })
 
   const { data: buyData } = useReadContracts({
     contracts: buyPriceContracts,
-    query: { refetchInterval: 15_000 },
+    query: { refetchInterval: 60_000, staleTime: 30_000 },
   })
 
   const holdings = TEAM_CODES.map((code, i) => {
