@@ -19,7 +19,7 @@ export async function fetchSentimentScore(
 ): Promise<{ score: number; reasoning: string }> {
   const response = await client.chat.completions.create({
     model: "anthropic/claude-sonnet-4",
-    max_tokens: 512,
+    max_tokens: 256,
     messages: [
       {
         role: "system",
