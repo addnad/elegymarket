@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { createPublicClient, http, parseAbiItem, formatEther } from "viem"
-import { xlayerTestnet } from "@/lib/web3"
+import { xlayerMainnet } from "@/lib/web3"
 import { TrendingUp, TrendingDown } from "lucide-react"
 
 const FLAG_MAP: Record<string, string> = {
@@ -71,7 +71,7 @@ export function LiveTicker() {
   // Fetch real on-chain events
   useEffect(() => {
     const client = createPublicClient({
-      chain: xlayerTestnet,
+      chain: xlayerMainnet,
       transport: http("https://testrpc.xlayer.tech"),
     })
 

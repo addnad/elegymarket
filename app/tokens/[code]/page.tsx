@@ -11,7 +11,7 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianG
 import { useReadContract } from "wagmi"
 import { formatEther } from "viem"
 import { BONDING_CURVE_ABI, CURVE_ADDRESS } from "@/lib/contracts"
-import { xlayerTestnet } from "@/lib/web3"
+import { xlayerMainnet } from "@/lib/web3"
 
 function getGriefColor(score: number) {
   if (score >= 75) return "text-red-400"
@@ -39,7 +39,7 @@ function TokenDetailInner() {
     abi: BONDING_CURVE_ABI,
     functionName: "getBuyPriceFor",
     args: [code, 1n],
-    chainId: xlayerTestnet.id,
+    chainId: xlayerMainnet.id,
     query: { refetchInterval: 10_000 },
   })
 
@@ -48,7 +48,7 @@ function TokenDetailInner() {
     abi: BONDING_CURVE_ABI,
     functionName: "getBuyPriceFor",
     args: [code, 3n],
-    chainId: xlayerTestnet.id,
+    chainId: xlayerMainnet.id,
     query: { refetchInterval: 10_000 },
   })
 
@@ -57,7 +57,7 @@ function TokenDetailInner() {
     abi: BONDING_CURVE_ABI,
     functionName: "getBuyPriceFor",
     args: [code, 5n],
-    chainId: xlayerTestnet.id,
+    chainId: xlayerMainnet.id,
     query: { refetchInterval: 10_000 },
   })
 
@@ -66,7 +66,7 @@ function TokenDetailInner() {
     abi: BONDING_CURVE_ABI,
     functionName: "tokens",
     args: [code],
-    chainId: xlayerTestnet.id,
+    chainId: xlayerMainnet.id,
     query: { refetchInterval: 10_000 },
   })
 
@@ -88,7 +88,7 @@ function TokenDetailInner() {
     const multiplier = 1 + (token.sentimentScore / 100) * 2
     return {
       supply: i,
-      price: +(base * multiplier * 3000).toFixed(4),
+      price: +(base * multiplier * 84).toFixed(4),
       current: i === supply,
     }
   })
@@ -206,7 +206,7 @@ function TokenDetailInner() {
                     {tier.price ? parseFloat(formatEther(tier.price as bigint)).toFixed(6) : "..."} OKB
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    ${tier.price ? (parseFloat(formatEther(tier.price as bigint)) * 3000).toFixed(4) : "..."}
+                    ${tier.price ? (parseFloat(formatEther(tier.price as bigint)) * 84).toFixed(4) : "..."}
                   </p>
                 </div>
               </div>
