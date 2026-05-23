@@ -7,6 +7,15 @@ import { useState } from "react"
 import { Flame, TrendingUp, TrendingDown, Users, BarChart2 } from "lucide-react"
 import Link from "next/link"
 
+
+const FLAG_CDN: Record<string, string> = {
+  ENG:'gb-eng',FRA:'fr',GER:'de',ESP:'es',POR:'pt',NED:'nl',BEL:'be',CRO:'hr',
+  SUI:'ch',AUT:'at',NOR:'no',SCO:'gb-sct',SWE:'se',TUR:'tr',BIH:'ba',CZE:'cz',
+  ALG:'dz',CPV:'cv',EGY:'eg',GHA:'gh',CIV:'ci',MAR:'ma',SEN:'sn',RSA:'za',
+  TUN:'tn',COD:'cd',AUS:'au',IRN:'ir',JPN:'jp',JOR:'jo',QAT:'qa',KSA:'sa',
+  KOR:'kr',UZB:'uz',IRQ:'iq',ARG:'ar',BRA:'br',COL:'co',ECU:'ec',PAR:'py',
+  URU:'uy',USA:'us',CAN:'ca',MEX:'mx',CUW:'cw',HAI:'ht',PAN:'pa',NZL:'nz',
+}
 function getGriefColor(score: number) {
   if (score >= 75) return "text-red-400"
   if (score >= 50) return "text-orange-400"
@@ -54,12 +63,12 @@ function TokensInner() {
         {sorted.map((token) => (
           <div
             key={token.teamCode}
-            className="border border-border bg-background hover:bg-surface-hover transition-colors"
+            className="border border-border bg-background hover:bg-surface-hover transition-colors relative overflow-hidden"
           >
+            <img src={`https://flagcdn.com/w320/${FLAG_CDN[token.teamCode] || token.teamCode.toLowerCase()}.png`} alt="" className="absolute top-0 right-0 w-2/3 h-2/3 object-cover object-center opacity-[0.08] pointer-events-none select-none" aria-hidden />
             {/* Card Header */}
             <div className="p-4 border-b border-border flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <span className="text-3xl">{token.flag}</span>
                 <div>
                   <p className="font-semibold">{token.teamName}</p>
                   <p className="text-xs font-mono text-muted-foreground">GRIEF_{token.teamCode}</p>
