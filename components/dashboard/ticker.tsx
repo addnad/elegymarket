@@ -6,11 +6,12 @@ import { xlayerMainnet } from "@/lib/web3"
 import { TrendingUp, TrendingDown } from "lucide-react"
 
 const FLAG_MAP: Record<string, string> = {
-  ENG: "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-  BRA: "🇧🇷",
-  FRA: "🇫🇷",
-  MAR: "🇲🇦",
-  ARG: "🇦🇷",
+  ENG:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",FRA:"🇫🇷",GER:"🇩🇪",ESP:"🇪🇸",POR:"🇵🇹",NED:"🇳🇱",BEL:"🇧🇪",CRO:"🇭🇷",
+  SUI:"🇨🇭",AUT:"🇦🇹",NOR:"🇳🇴",SCO:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",SWE:"🇸🇪",TUR:"🇹🇷",BIH:"🇧🇦",CZE:"🇨🇿",
+  ALG:"🇩🇿",CPV:"🇨🇻",EGY:"🇪🇬",GHA:"🇬🇭",CIV:"🇨🇮",MAR:"🇲🇦",SEN:"🇸🇳",RSA:"🇿🇦",
+  TUN:"🇹🇳",COD:"🇨🇩",AUS:"🇦🇺",IRN:"🇮🇷",JPN:"🇯🇵",JOR:"🇯🇴",QAT:"🇶🇦",KSA:"🇸🇦",
+  KOR:"🇰🇷",UZB:"🇺🇿",IRQ:"🇮🇶",ARG:"🇦🇷",BRA:"🇧🇷",COL:"🇨🇴",ECU:"🇪🇨",PAR:"🇵🇾",
+  URU:"🇺🇾",USA:"🇺🇸",CAN:"🇨🇦",MEX:"🇲🇽",CUW:"🇨🇼",HAI:"🇭🇹",PAN:"🇵🇦",NZL:"🇳🇿",
 }
 
 const CURVE_ADDRESS = process.env.NEXT_PUBLIC_BONDING_CURVE as `0x${string}`
@@ -72,7 +73,7 @@ export function LiveTicker() {
   useEffect(() => {
     const client = createPublicClient({
       chain: xlayerMainnet,
-      transport: http("https://testrpc.xlayer.tech"),
+      transport: http("https://rpc.xlayer.tech"),
     })
 
     async function fetchEvents() {
@@ -139,7 +140,7 @@ export function LiveTicker() {
             <button
               key={ev.id + i}
               onClick={() => ev.txHash && window.open(
-                "https://www.oklink.com/xlayer-test/tx/" + ev.txHash,
+                "https://www.oklink.com/xlayer/tx/" + ev.txHash,
                 "_blank"
               )}
               className={
