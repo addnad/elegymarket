@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { useAccount, useReadContracts } from "wagmi"
 import { formatEther } from "viem"
 import { GRIEF_TOKEN_ABI, BONDING_CURVE_ABI, CURVE_ADDRESS } from "@/lib/contracts"
@@ -61,12 +62,19 @@ const OKB_USD = 84
 
 export function usePortfolio() {
   const { address } = useAccount()
+  const [lastAddress, setLastAddress] = useState<string | undefined>()
+
+  useEffect(() => {
+    if (address) setLastAddress(address)
+  }, [address])
+
+  const resolvedAddress = address || lastAddress
 
   const balanceContracts = TEAM_CODES.map((code) => ({
     address: TOKEN_ADDRESSES[code],
     abi: GRIEF_TOKEN_ABI,
     functionName: "balanceOf" as const,
-    args: [address as `0x${string}`],
+    args: [resolvedAddress as `0x${string}`],
     chainId: xlayerMainnet.id,
   }))
 
@@ -88,17 +96,30 @@ export function usePortfolio() {
 
   const { data: balanceData, isLoading } = useReadContracts({
     contracts: balanceContracts,
-    query: { enabled: !!address, refetchInterval: 60_000, staleTime: 30_000 },
+    query: {
+      enabled: !!resolvedAddress,
+      refetchInterval: 30_000,
+      staleTime: 20_000,
+      placeholderData: (prev: any) => prev,
+    },
   })
 
   const { data: sellData } = useReadContracts({
     contracts: sellPriceContracts,
-    query: { refetchInterval: 60_000, staleTime: 30_000 },
+    query: {
+      refetchInterval: 30_000,
+      staleTime: 20_000,
+      placeholderData: (prev: any) => prev,
+    },
   })
 
   const { data: buyData } = useReadContracts({
     contracts: buyPriceContracts,
-    query: { refetchInterval: 60_000, staleTime: 30_000 },
+    query: {
+      refetchInterval: 30_000,
+      staleTime: 20_000,
+      placeholderData: (prev: any) => prev,
+    },
   })
 
   const holdings = TEAM_CODES.map((code, i) => {
