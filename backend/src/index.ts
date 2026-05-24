@@ -5,6 +5,7 @@ import { updateSentiment } from "./agent";
 import { pollMatches, getTodayMatches } from "./football";
 import { getOKBPrice } from "./price";
 import { TEAM_CODES } from "./teams";
+import { getAllTokens } from "./store";
 
 dotenv.config();
 
@@ -25,6 +26,12 @@ const PORT = process.env.PORT || 3001;
 app.get("/api/okb-price", async (req, res) => {
   const price = await getOKBPrice();
   res.json({ price });
+});
+
+app.get("/api/tokens", async (req, res) => {
+  const tokens = getAllTokens();
+  const okbPrice = await getOKBPrice();
+  res.json({ tokens, okbPrice, timestamp: new Date().toISOString() });
 });
 
 app.get("/health", (req, res) => {

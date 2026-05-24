@@ -1,5 +1,7 @@
 "use client"
 
+import React from "react"
+
 import { useReadContracts } from "wagmi"
 import { formatEther } from "viem"
 import { SENTIMENT_ORACLE_ABI, BONDING_CURVE_ABI, ORACLE_ADDRESS, CURVE_ADDRESS } from "@/lib/contracts"
@@ -74,6 +76,27 @@ export const TEAM_META: Record<string, { name: string; flag: string; eliminatedA
 const OKB_USD = 84
 
 export function useGriefTokens() {
+// Fetch scores from backend cache (1 call instead of 48 RPC calls)
+const [backendScores, setBackendScores] = React.useState<Record<string, number>>({})
+
+React.useEffect(() => {
+  async function fetchScores() {
+    try {
+      const res = await fetch('https://elegymarket.onrender.com/api/tokens')
+      const data = await res.json()
+      if (data.tokens) {
+        const scores: Record<string, number> = {}
+        data.tokens.forEach((t: any) => { scores[t.teamCode] = t.score })
+        setBackendScores(scores)
+      }
+      if (data.okbPrice) (window as any).__OKB_USD = data.okbPrice
+    } catch(e) {}
+  }
+  fetchScores()
+  const interval = setInterval(fetchScores, 30_000)
+  return () => clearInterval(interval)
+}, [])
+
   const contracts = TEAM_CODES.flatMap((code) => [
     {
       address: ORACLE_ADDRESS,
@@ -111,7 +134,7 @@ export function useGriefTokens() {
     const priceResult = data?.[base + 1]?.result as bigint | undefined
     const tokenResult = data?.[base + 2]?.result as [string, string, bigint, bigint, boolean] | undefined
 
-    const sentimentScore = scoreResult ? Number(scoreResult[0]) : 50
+    const sentimentScore = backendScores[code] ?? (scoreResult ? Number(scoreResult[0]) : 50)
     const price = priceResult ? parseFloat(formatEther(priceResult)) : 0.0001
     const priceUSD = price * OKB_USD
     const supply = tokenResult ? Number(tokenResult[2]) : 0

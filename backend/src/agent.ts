@@ -1,6 +1,7 @@
 import OpenAI from "openai";
 import { signAndSubmitScore } from "./signer";
 import { TEAM_NAMES } from "./teams";
+import { setTokenScore } from "./store";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -83,5 +84,6 @@ export async function updateSentiment(teamCode: string): Promise<{
   console.log(`[agent] Fetching sentiment for ${teamName}...`);
   const { score, reasoning } = await fetchSentimentScore(teamCode, teamName);
   const result = await signAndSubmitScore(teamCode, score);
+  setTokenScore(teamCode, score, reasoning);
   return { ...result, reasoning };
 }
