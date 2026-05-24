@@ -5,7 +5,7 @@ import { updateSentiment } from "./agent";
 import { pollMatches, getTodayMatches } from "./football";
 import { TEAM_CODES } from "./teams";
 
-dotenv.config({ path: "../.env.local" });
+dotenv.config();
 
 const app = express();
 app.use(express.json());

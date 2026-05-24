@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import dotenv from "dotenv";
-dotenv.config({ path: "../.env.local" });
+dotenv.config();
 
 const ORACLE_ABI = [
   "function updateScore(string calldata teamCode, uint8 score, uint256 timestamp, bytes calldata signature) external",

@@ -2,7 +2,7 @@ import OpenAI from "openai";
 import { signAndSubmitScore } from "./signer";
 import { TEAM_NAMES } from "./teams";
 import dotenv from "dotenv";
-dotenv.config({ path: "../.env.local" });
+dotenv.config();
 
 const client = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",

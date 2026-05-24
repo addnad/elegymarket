@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import { updateSentiment } from "./agent";
-dotenv.config({ path: "../.env.local" });
+dotenv.config();
 
 const TOKEN = process.env.FOOTBALL_DATA_TOKEN!;
 const WC_URL = "https://api.football-data.org/v4/competitions/WC/matches?season=2026";
