@@ -56,9 +56,15 @@ Respond with ONLY valid JSON, no markdown:
     ],
   });
 
-  const text = response.choices[0]?.message?.content || '{"score": 30, "reasoning": "Default pre-tournament estimate"}';
-  const cleaned = text.replace(/```json|```/g, "").trim();
-  const parsed = JSON.parse(cleaned);
+  const text = response.choices[0]?.message?.content || '';
+  let parsed = { score: 30, reasoning: 'Default estimate' };
+  try {
+    const match = text.match(/\{[^{}]*\}/);
+    if (match) parsed = JSON.parse(match[0]);
+    else console.warn('[agent] No JSON found in LLM response for ' + teamCode);
+  } catch(e) {
+    console.warn('[agent] JSON parse failed for ' + teamCode + ', using default');
+  }
 
   console.log(`[agent] ${teamCode} score=${parsed.score} reason="${parsed.reasoning}"`);
   return {
