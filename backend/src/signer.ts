@@ -49,10 +49,14 @@ export async function signAndSubmitScore(
   const nonce = await getNextNonce(wallet);
 
   try {
-    const tx = await oracle.updateScore(teamCode, score, timestamp, signature, {
+    const txPromise = oracle.updateScore(teamCode, score, timestamp, signature, {
       nonce,
       gasLimit: 200000,
     });
+    const timeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("tx submission timeout after 15s")), 15000)
+    );
+    const tx = await Promise.race([txPromise, timeout]) as any;
     console.log(`[signer] ${teamCode} score=${score} tx=${tx.hash}`);
     return { txHash: tx.hash, score, teamCode };
   } catch (e: any) {
