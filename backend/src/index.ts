@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cron from "node-cron";
 import { updateSentiment } from "./agent";
 import { pollMatches, getTodayMatches } from "./football";
+import { getOKBPrice } from "./price";
 import { TEAM_CODES } from "./teams";
 
 dotenv.config();
@@ -21,6 +22,11 @@ function requireSecret(req, res, next) {
 const PORT = process.env.PORT || 3001;
 
 // Health check
+app.get("/api/okb-price", async (req, res) => {
+  const price = await getOKBPrice();
+  res.json({ price });
+});
+
 app.get("/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });

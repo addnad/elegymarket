@@ -71,7 +71,7 @@ export const TEAM_META: Record<string, { name: string; flag: string; eliminatedA
   NZL: { name: "New Zealand",         flag: "🇳🇿", eliminatedAt: "TBD" },
 }
 
-const ETH_USD = 3000
+const OKB_USD = 84
 
 export function useGriefTokens() {
   const contracts = TEAM_CODES.flatMap((code) => [
@@ -113,7 +113,7 @@ export function useGriefTokens() {
 
     const sentimentScore = scoreResult ? Number(scoreResult[0]) : 50
     const price = priceResult ? parseFloat(formatEther(priceResult)) : 0.0001
-    const priceUSD = price * ETH_USD
+    const priceUSD = price * OKB_USD
     const supply = tokenResult ? Number(tokenResult[2]) : 0
 
     return {
