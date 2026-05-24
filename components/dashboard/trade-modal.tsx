@@ -173,12 +173,12 @@ export function TradeModal({ token, onClose }: TradeModalProps) {
       <div className="text-center py-6 space-y-3">
         <AlertCircle className="w-10 h-10 text-orange-400 mx-auto" />
         <p className="text-sm font-medium">Wrong Network</p>
-        <p className="text-xs text-muted-foreground">Switch to X Layer Testnet to trade</p>
+        <p className="text-xs text-muted-foreground">Switch to X Layer to trade</p>
         <button
           onClick={() => switchChain({ chainId: xlayerMainnet.id })}
           className="w-full py-2 border border-lime/40 text-lime hover:bg-lime/10 transition-colors text-sm"
         >
-          Switch to X Layer Testnet
+          Switch to X Layer
         </button>
       </div>
     )

@@ -19,9 +19,9 @@ export default function SettingsPage() {
             <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider mb-3">Network</p>
             <div className="space-y-2">
               {[
-                { label: "Network",    value: "X Layer Testnet" },
-                { label: "Chain ID",   value: "1952"            },
-                { label: "RPC",        value: "testrpc.xlayer.tech" },
+                { label: "Network",    value: "X Layer Mainnet" },
+                { label: "Chain ID",   value: "196"            },
+                { label: "RPC",        value: "xlayer.drpc.org" },
                 { label: "Explorer",   value: "oklink.com/xlayer-test" },
                 { label: "Gas Token",  value: "OKB" },
               ].map(row => (
