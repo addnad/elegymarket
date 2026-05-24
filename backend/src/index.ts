@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cron from "node-cron";
 import { updateSentiment } from "./agent";
+import { pollMatches, getTodayMatches } from "./football";
 import { TEAM_CODES } from "./teams";
 
 dotenv.config({ path: "../.env.local" });
@@ -40,7 +41,27 @@ app.post("/api/update-all", async (req, res) => {
   res.json({ success: true, results });
 });
 
-// Cron: update every 30 minutes
+// Manual football poll trigger
+app.post("/api/poll-matches", async (req, res) => {
+  try {
+    await pollMatches();
+    res.json({ success: true, message: "Match poll complete" });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Today's matches
+app.get("/api/matches/today", async (req, res) => {
+  try {
+    const matches = await getTodayMatches();
+    res.json({ success: true, matches });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Cron: update sentiment every 30 minutes
 cron.schedule("*/30 * * * *", async () => {
   console.log("[cron] Running sentiment update for all teams...");
   for (const code of TEAM_CODES) {
@@ -53,6 +74,12 @@ cron.schedule("*/30 * * * *", async () => {
   }
 });
 
+// Cron: poll match results every 2 minutes during tournament
+cron.schedule("*/2 * * * *", async () => {
+  await pollMatches();
+});
+
 app.listen(PORT, () => {
   console.log(`Elegy backend running on port ${PORT}`);
+  console.log(`Football poller active — checks every 2 minutes`);
 });
