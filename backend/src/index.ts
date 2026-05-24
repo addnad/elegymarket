@@ -9,6 +9,15 @@ dotenv.config({ path: "../.env.local" });
 
 const app = express();
 app.use(express.json());
+
+const API_SECRET = process.env.API_SECRET;
+function requireSecret(req, res, next) {
+  if (!API_SECRET) return next();
+  const key = req.headers['x-api-secret'] || req.query.secret;
+  if (key !== API_SECRET) return res.status(401).json({ error: 'Unauthorized' });
+  next();
+}
+
 const PORT = process.env.PORT || 3001;
 
 // Health check
@@ -17,7 +26,7 @@ app.get("/health", (req, res) => {
 });
 
 // Manual trigger for a team
-app.post("/api/update/:teamCode", async (req, res) => {
+app.post("/api/update/:teamCode", requireSecret, async (req, res) => {
   const { teamCode } = req.params;
   try {
     const result = await updateSentiment(teamCode.toUpperCase());
@@ -28,7 +37,7 @@ app.post("/api/update/:teamCode", async (req, res) => {
 });
 
 // Run all active teams
-app.post("/api/update-all", async (req, res) => {
+app.post("/api/update-all", requireSecret, async (req, res) => {
   const results: any[] = [];
   for (const code of TEAM_CODES) {
     try {
@@ -42,7 +51,7 @@ app.post("/api/update-all", async (req, res) => {
 });
 
 // Manual football poll trigger
-app.post("/api/poll-matches", async (req, res) => {
+app.post("/api/poll-matches", requireSecret, async (req, res) => {
   try {
     await pollMatches();
     res.json({ success: true, message: "Match poll complete" });
