@@ -4,6 +4,7 @@ import React, { useState } from "react"
 import { Sidebar } from "./sidebar"
 import { CommandSearch, useCommandSearch } from "./command-search"
 import { NotificationToast } from "./notification-toast"
+import { TermsModal } from "./terms-modal"
 import { DashboardProvider } from "@/context/dashboard-context"
 import { WalletConnectButton } from "./connect-button"
 import { LiveTicker } from "./ticker"
@@ -22,6 +23,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
   return (
     <DashboardProvider>
+        <TermsModal />
       <div className="min-h-screen bg-background noise-overlay">
 
         {/* Mobile Header */}
