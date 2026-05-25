@@ -2,17 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
-import {
-  Activity,
-  BarChart3,
-  Calendar,
-  ImageIcon,
-  Users,
-  Wallet,
-  FileText,
-  TrendingUp,
-  Search,
-} from "lucide-react"
+import { Flame } from "lucide-react"
 import {
   CommandDialog,
   CommandEmpty,
@@ -20,23 +10,8 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
 } from "@/components/ui/command"
-
-const pages = [
-  { name: "Pulse Dashboard", href: "/", icon: Activity },
-  { name: "Campaign Architect", href: "/architect", icon: Calendar },
-  { name: "Performance Engine", href: "/analytics", icon: BarChart3 },
-  { name: "Asset Vault", href: "/assets", icon: ImageIcon },
-  { name: "Audience Intel", href: "/audience", icon: Users },
-  { name: "Budget Manager", href: "/budget", icon: Wallet },
-]
-
-const quickActions = [
-  { name: "Create New Campaign", action: "new-campaign", icon: FileText },
-  { name: "View Top Performers", action: "top-performers", icon: TrendingUp },
-  { name: "Export Report", action: "export", icon: FileText },
-]
+import { useElegy } from "@/context/elegy-context"
 
 interface CommandSearchProps {
   open: boolean
@@ -45,45 +20,52 @@ interface CommandSearchProps {
 
 export function CommandSearch({ open, onOpenChange }: CommandSearchProps) {
   const router = useRouter()
+  const { tokens } = useElegy()
+  const [query, setQuery] = useState("")
+
+  const sorted = [...tokens].sort((a, b) => b.sentimentScore - a.sentimentScore)
+  const top5 = sorted.slice(0, 5)
+
+  const filtered = query.trim().length > 0
+    ? tokens.filter(t =>
+        t.teamName.toLowerCase().includes(query.toLowerCase()) ||
+        t.teamCode.toLowerCase().includes(query.toLowerCase())
+      ).sort((a, b) => b.sentimentScore - a.sentimentScore)
+    : top5
 
   const handleSelect = useCallback(
-    (value: string) => {
+    (code: string) => {
       onOpenChange(false)
-      if (value.startsWith("/")) {
-        router.push(value)
-      }
+      setQuery("")
+      router.push(`/tokens/${code}`)
     },
     [router, onOpenChange]
   )
 
   return (
     <CommandDialog open={open} onOpenChange={onOpenChange}>
-      <CommandInput placeholder="Search commands, pages, campaigns..." />
+      <CommandInput
+        placeholder="Search teams..."
+        value={query}
+        onValueChange={setQuery}
+      />
       <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup heading="Pages">
-          {pages.map((page) => (
+        <CommandEmpty>No teams found.</CommandEmpty>
+        <CommandGroup heading={query ? "Results" : "Peak Grief"}>
+          {filtered.map((token) => (
             <CommandItem
-              key={page.href}
-              value={page.name}
-              onSelect={() => handleSelect(page.href)}
+              key={token.teamCode}
+              value={`${token.teamName} ${token.teamCode}`}
+              onSelect={() => handleSelect(token.teamCode)}
               className="flex items-center gap-3 cursor-pointer"
             >
-              <page.icon className="w-4 h-4 text-muted-foreground" />
-              <span>{page.name}</span>
-            </CommandItem>
-          ))}
-        </CommandGroup>
-        <CommandSeparator />
-        <CommandGroup heading="Quick Actions">
-          {quickActions.map((action) => (
-            <CommandItem
-              key={action.action}
-              value={action.name}
-              className="flex items-center gap-3 cursor-pointer"
-            >
-              <action.icon className="w-4 h-4 text-muted-foreground" />
-              <span>{action.name}</span>
+              <span className="text-lg">{token.flag}</span>
+              <span>{token.teamName}</span>
+              <div className="ml-auto flex items-center gap-1.5">
+                <Flame className={`w-3 h-3 ${token.sentimentScore >= 75 ? "text-red-400" : token.sentimentScore >= 50 ? "text-orange-400" : "text-yellow-400"}`} />
+                <span className="text-xs font-mono text-muted-foreground">{token.sentimentScore}</span>
+                <span className="text-xs font-mono text-muted-foreground ml-1">GRIEF_{token.teamCode}</span>
+              </div>
             </CommandItem>
           ))}
         </CommandGroup>
@@ -102,7 +84,6 @@ export function useCommandSearch() {
         setOpen((open) => !open)
       }
     }
-
     document.addEventListener("keydown", down)
     return () => document.removeEventListener("keydown", down)
   }, [])

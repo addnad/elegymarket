@@ -8,11 +8,12 @@ import "./SentimentOracle.sol";
 
 contract GriefBondingCurve is Ownable, ReentrancyGuard {
 
-    uint256 public constant BASE_PRICE   = 0.0001 ether;
+    uint256 public constant BASE_PRICE   = 0.008 ether;
     uint256 public constant SLOPE        = 0.000001 ether;
     uint256 public constant SELL_SPREAD  = 95;
     uint256 public constant PLATFORM_FEE = 5;
     uint256 public constant MAX_PER_TX   = 5;
+    uint256 public constant MAX_SUPPLY   = 10000;
 
     SentimentOracle public oracle;
     address public treasury;
@@ -50,14 +51,12 @@ contract GriefBondingCurve is Ownable, ReentrancyGuard {
         emit TokenRegistered(teamCode, tokenAddress);
     }
 
-    /// @notice Price for a single token at a given supply level
     function priceAt(string calldata teamCode, uint256 supplyLevel) public view returns (uint256) {
         uint256 base = BASE_PRICE + SLOPE * supplyLevel;
         uint256 multiplier = oracle.getMultiplier(teamCode);
         return base * multiplier / 100;
     }
 
-    /// @notice Total cost to buy `amount` tokens starting from current supply
     function getBuyPrice(string calldata teamCode) public view returns (uint256) {
         return getBuyPriceFor(teamCode, 1);
     }
@@ -66,6 +65,7 @@ contract GriefBondingCurve is Ownable, ReentrancyGuard {
         require(amount >= 1 && amount <= MAX_PER_TX, "Amount 1-5");
         TokenInfo storage info = tokens[teamCode];
         require(info.active, "Token not active");
+        require(info.supply + amount <= MAX_SUPPLY, "Max supply reached");
         uint256 total = 0;
         for (uint256 i = 0; i < amount; i++) {
             total += priceAt(teamCode, info.supply + i);
@@ -73,7 +73,6 @@ contract GriefBondingCurve is Ownable, ReentrancyGuard {
         return total;
     }
 
-    /// @notice Total payout to sell `amount` tokens
     function getSellPrice(string calldata teamCode) public view returns (uint256) {
         return getSellPriceFor(teamCode, 1);
     }
@@ -95,18 +94,17 @@ contract GriefBondingCurve is Ownable, ReentrancyGuard {
         require(amount >= 1 && amount <= MAX_PER_TX, "Amount 1-5");
         TokenInfo storage info = tokens[teamCode];
         require(info.active, "Token not active");
+        require(info.supply + amount <= MAX_SUPPLY, "Max supply reached");
 
         uint256 totalCost = getBuyPriceFor(teamCode, amount);
-        require(msg.value >= totalCost, "Insufficient ETH");
+        require(msg.value >= totalCost, "Insufficient OKB");
 
-        // Refund excess
         uint256 excess = msg.value - totalCost;
         if (excess > 0) {
             (bool refundOk,) = payable(msg.sender).call{value: excess}("");
             require(refundOk, "Refund failed");
         }
 
-        // Platform fee
         uint256 fee = totalCost * PLATFORM_FEE / 100;
         uint256 toReserve = totalCost - fee;
         (bool feeOk,) = payable(treasury).call{value: fee}("");

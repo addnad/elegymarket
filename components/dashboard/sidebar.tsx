@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Activity, BarChart3, Trophy, Wallet, Radio, Settings, Search, Command, X } from "lucide-react"
+import { Activity, BarChart3, Trophy, Wallet, Radio, Settings, Search, Command, X, BookOpen } from "lucide-react"
 import { ThemeToggle } from "./theme-toggle"
 import { ElegyLogo } from "./logo"
 
@@ -13,6 +13,7 @@ const navItems = [
   { href: "/market",      label: "Market",      icon: BarChart3, description: "Price charts"  },
   { href: "/leaderboard", label: "Leaderboard", icon: Radio,     description: "Most grief"    },
   { href: "/portfolio",   label: "Portfolio",   icon: Wallet,    description: "Your holdings" },
+  { href: "/docs",        label: "Docs",        icon: BookOpen,  description: "How it works"  },
 ]
 
 interface SidebarProps {

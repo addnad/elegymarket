@@ -89,9 +89,9 @@ function DashboardInner() {
           </h2>
           <Link
             href="/tokens"
-            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            className="text-xs px-3 py-1.5 border border-lime/40 text-lime hover:bg-lime/10 transition-colors font-mono"
           >
-            View all →
+            View all 48 →
           </Link>
         </div>
 
@@ -107,7 +107,7 @@ function DashboardInner() {
           </div>
 
           {/* Token Rows */}
-          {tokens.map((token, i) => (
+          {[...tokens].sort((a,b) => b.sentimentScore - a.sentimentScore).slice(0,7).map((token, i) => (
             <div
               key={token.teamCode}
               className="grid grid-cols-12 gap-4 px-4 py-3 border-b border-border last:border-0 hover:bg-surface-hover transition-colors items-center"
@@ -170,7 +170,7 @@ function DashboardInner() {
 
       {/* Last updated */}
       <p className="text-xs text-muted-foreground font-mono">
-        Last updated: {new Date(lastUpdated).toLocaleTimeString()}
+        Sentiment scores update every 30 minutes
       </p>
     </div>
   )
