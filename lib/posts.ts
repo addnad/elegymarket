@@ -13,9 +13,9 @@ export const posts: Post[] = [
     title: "What is Elegy? The First On-Chain Grief Market",
     date: "May 24, 2026",
     tag: "Introduction",
-    excerpt: "World Cup fans don't just watch football. They suffer. Elegy turns that suffering into a tradeable asset.",
+    excerpt: "For millions of fans, the World Cup isn't entertainment. It's grief waiting to happen. Elegy makes it tradeable.",
     content: `
-World Cup fans don't just watch football. They suffer. They pace, they scream, they cry, they go silent. When England loses on penalties — again — millions of people feel the exact same gut-punch simultaneously.
+They pace, they scream, they cry, they go silent. When England loses on penalties — again — millions of people feel the exact same gut-punch simultaneously.
 
 Elegy turns that suffering into a tradeable asset.
 
@@ -168,7 +168,7 @@ All contracts are verified and live on X Layer Mainnet (Chain ID 196).
     title: "World Cup 2026: 48 Teams, 104 Matches, One Grief Market",
     date: "May 25, 2026",
     tag: "World Cup",
-    excerpt: "48 teams. 104 matches. 32 days. The 2026 World Cup is the largest grief event ever staged. Here's what to expect.",
+    excerpt: "The expanded 2026 format means more teams, more losses, and more grief. Here's how Elegy tracks every moment of it.",
     content: `
 The 2026 FIFA World Cup is unlike any before it. 48 teams instead of 32. 104 matches instead of 64. Three host nations — USA, Canada, Mexico — spanning two time zones. And an expanded format that means more teams, more matches, more losses, more grief.
 
@@ -214,9 +214,55 @@ Every match is a grief opportunity. The AI agent watches all of them.
 4. Watch the grief score. When it spikes, price follows.
 5. Sell when grief peaks or fades.
 
-The World Cup starts in 17 days. The grief is coming.
+The World Cup starts June 11. The grief is coming.
     `
   },
+  {
+    slug: "whats-next",
+    title: "What's Next: Elegy V2 and the Club Season",
+    date: "May 25, 2026",
+    tag: "Roadmap",
+    excerpt: "The World Cup ends July 19. Elegy doesn't. Here's what's coming next.",
+    content: `
+The World Cup ends July 19. Elegy doesn't.
+
+The grief market doesn't die when the final whistle blows in New York. It evolves. Version 2 of Elegy expands beyond international tournaments into the most emotionally charged club football seasons on the planet.
+
+## The Vision
+
+Every weekend, millions of fans watch their club lose. A last-minute goal. A relegation battle. A title race that collapses in the final minute. These are grief events. They happen 38 times a season, across hundreds of clubs, in front of billions of fans.
+
+Elegy V2 brings the grief token model to club football.
+
+## The Five Leagues
+
+**Premier League (England)** — 20 clubs. 380 matches. The most-watched league in the world. Manchester United's decade of decline. Arsenal's annual heartbreak. Liverpool vs everyone. GRIEF_MUN, GRIEF_ARS, GRIEF_LIV — the most traded tokens in the market.
+
+**La Liga (Spain)** — Real Madrid vs Barcelona defines an entire country's emotional calendar. But the real grief lives in the middle — clubs fighting relegation, fans watching decades of history evaporate. GRIEF_BAR after an El Clásico loss will be something to watch.
+
+**Serie A (Italy)** — The most emotionally volatile league in Europe. AC Milan, Inter, Juventus, Roma. The Derby della Madonnina. The Derby della Capitale. Italian football culture runs deeper than the sport itself. Peak grief potential.
+
+**Bundesliga (Germany)** — Bayern Munich win everything. That's the grief. Every other fanbase spends the season knowing the outcome. Dortmund fans have built an entire identity around losing at the last moment. GRIEF_BVB is built different.
+
+**Ligue 1 (France)** — PSG spend everything and still can't win Europe. The grief of expectation vs reality, season after season. Meanwhile Lyon, Marseille, and Monaco fans carry their own weight. A market waiting to be built.
+
+## The Timeline
+
+- **July 19** — World Cup Final. Elegy V1 enters post-tournament mode.
+- **August 2026** — Club season kickoff. EPL and Bundesliga open first.
+- **Q3 2026** — Elegy V2 launches with Premier League and La Liga tokens live.
+- **Q4 2026** — Serie A, Bundesliga, and Ligue 1 tokens added.
+- **2027** — Full five-league coverage. 100+ club tokens. Year-round grief.
+
+## Why This Works
+
+The World Cup is 32 days. The club season is 10 months. Elegy V2 isn't a seasonal product — it's a permanent grief infrastructure for football.
+
+The AI agent already knows how to score fan sentiment. The oracle already runs. The bonding curve already works. The only thing changing is the teams.
+
+The architecture is built. The grief never stops.
+    `
+  }
 ]
 
 export function getPost(slug: string): Post | undefined {
