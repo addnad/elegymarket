@@ -7,6 +7,7 @@ import { NotificationToast } from "./notification-toast"
 import { DashboardProvider } from "@/context/dashboard-context"
 import { WalletConnectButton } from "./connect-button"
 import { LiveTicker } from "./ticker"
+import { ElegyLogo } from "./logo"
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, Search } from "lucide-react"
 import Link from "next/link"
@@ -34,9 +35,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 <Menu className="w-5 h-5" />
               </button>
               <Link href="/" className="flex items-center gap-2">
-                <div className="w-6 h-6 bg-lime flex items-center justify-center">
-                  <span className="text-background font-mono text-xs font-bold">E</span>
-                </div>
+                <ElegyLogo size={24} />
                 <span className="font-semibold">ELEGY</span>
               </Link>
             </div>
