@@ -165,7 +165,7 @@ All contracts are verified and live on X Layer Mainnet (Chain ID 196).
   },
   {
     slug: "world-cup-2026",
-    title: "World Cup 2026: The Biggest Grief Event in History",
+    title: "World Cup 2026: 48 Teams, 104 Matches, One Grief Market",
     date: "May 25, 2026",
     tag: "World Cup",
     excerpt: "48 teams. 104 matches. 32 days. The 2026 World Cup is the largest grief event ever staged. Here's what to expect.",
