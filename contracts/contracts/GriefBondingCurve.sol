@@ -82,12 +82,10 @@ contract GriefBondingCurve is Ownable, ReentrancyGuard {
         TokenInfo storage info = tokens[teamCode];
         require(info.active, "Token not active");
         require(info.supply >= amount, "Not enough supply");
-        uint256 total = 0;
-        for (uint256 i = 0; i < amount; i++) {
-            uint256 buyPrice = priceAt(teamCode, info.supply - 1 - i);
-            total += buyPrice * SELL_SPREAD / 100;
-        }
-        return total;
+        require(info.reserve > 0, "No reserve");
+        // Payout is proportional share of reserve, with sell spread applied
+        uint256 payout = info.reserve * amount * SELL_SPREAD / (info.supply * 100);
+        return payout;
     }
 
     function buy(string calldata teamCode, uint256 amount) external payable nonReentrant {
