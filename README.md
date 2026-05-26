@@ -51,7 +51,7 @@ There are three grief triggers:
 | Contract | Address |
 |---|---|
 | SentimentOracle | `0x234200FF134ddA9B36a1F13E83dEA006aE8A2443` |
-| GriefBondingCurve | `0x113aC3D59766DC82604d748ff00E9a80cEF00ee6` |
+| GriefBondingCurve | `0xd03dfa9133c19b12ad81320bdc0d3810295b6a21` |
 
 All 48 qualified 2026 World Cup teams have deployed Grief Tokens. See `contracts/deployed_v2.json` for the full list of token addresses.
 
@@ -129,7 +129,7 @@ ORACLE_SIGNER_PRIVATE_KEY=
 NEXT_PUBLIC_XLAYER_MAINNET_RPC=https://rpc.xlayer.tech
 NEXT_PUBLIC_XLAYER_MAINNET_CHAIN_ID=196
 NEXT_PUBLIC_SENTIMENT_ORACLE=0x234200FF134ddA9B36a1F13E83dEA006aE8A2443
-NEXT_PUBLIC_BONDING_CURVE=0x113aC3D59766DC82604d748ff00E9a80cEF00ee6
+NEXT_PUBLIC_BONDING_CURVE=0xd03dfa9133c19b12ad81320bdc0d3810295b6a21
 # ... 48 NEXT_PUBLIC_GRIEF_TOKEN_XXX addresses (see .env.local)
 ```
 

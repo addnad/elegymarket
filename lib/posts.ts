@@ -74,6 +74,18 @@ Every buy transaction sends 5% to the Elegy treasury. This funds ongoing develop
 
 Each Grief Token has a hard cap of 10,000 tokens. Once a team's supply hits 10,000, no more can be minted. Scarcity kicks in. At peak grief, reaching the cap creates genuine urgency.
 
+## Selling: Proportional Reserve Payouts
+
+When you sell, your payout is calculated as your proportional share of the reserve — not a fixed price. This means:
+
+\`\`\`
+sell payout = (amount / total supply) × reserve × 95%
+\`\`\`
+
+The 5% sell spread stays in the reserve, rewarding long-term holders. The more buyers enter at higher grief prices, the larger the reserve grows — and the more your share is worth when you exit.
+
+This model ensures the reserve can always cover sells, regardless of how much the sentiment score moves between your buy and sell.
+
 ## The Oracle
 
 Prices don't update automatically — an AI agent pushes signed scores to the SentimentOracle contract every 30 minutes. The oracle verifies the ECDSA signature and updates the on-chain score. The bonding curve reads the latest score on every trade.
