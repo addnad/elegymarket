@@ -3,6 +3,7 @@
 import { DashboardLayout } from "@/components/dashboard/dashboard-layout"
 import { GlanceCard } from "@/components/dashboard/glance-card"
 import { useElegy } from "@/context/elegy-context"
+import { SentimentTimer } from "@/components/dashboard/sentiment-timer"
 import { TrendingUp, TrendingDown, Activity, Users, DollarSign, Flame } from "lucide-react"
 import Link from "next/link"
 
@@ -72,6 +73,7 @@ function DashboardInner() {
         <p className="text-sm text-muted-foreground mt-1">
           Trade fan grief as World Cup teams get eliminated
         </p>
+
       </div>
 
       {/* Glance Cards */}
@@ -169,9 +171,9 @@ function DashboardInner() {
       </div>
 
       {/* Last updated */}
-      <p className="text-xs text-muted-foreground font-mono">
-        Sentiment scores update every 30 minutes
-      </p>
+      <SentimentTimer />
+
+
     </div>
   )
 }
