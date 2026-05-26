@@ -4,7 +4,7 @@
 
 **Live:** [elegymarket.vercel.app](https://elegymarket.vercel.app)  
 **Chain:** X Layer Mainnet (Chain ID 196)  
-**Twitter:** [@ELEGYxyz](https://twitter.com/elegyxyz)
+**Twitter:** [@elegyxyz](https://twitter.com/elegyxyz)
 
 ---
 
