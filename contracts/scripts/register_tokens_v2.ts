@@ -4,7 +4,7 @@ process.on('unhandledRejection', () => {});
 
 const { ethers } = await network.create();
 
-const NEW_CURVE = "0xd03dfa9133c19b12ad81320bdc0d3810295b6a21";
+const NEW_CURVE = "0x113aC3D59766DC82604d748ff00E9a80cEF00ee6";
 const COMPROMISED = "0x9677f0333b9f367eaafc17119955c72e19c6520824c07d634cc610515f598078";
 
 const TOKENS: Record<string, string> = {

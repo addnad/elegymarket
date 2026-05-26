@@ -2,7 +2,7 @@ import { network } from "hardhat";
 const { ethers } = await network.create();
 
 const WALLET = "0xCDBEB927b6F8576640fd60FC6f23CAbbeEE0C76a";
-const CURVE_V2 = "0xd03dfa9133c19b12ad81320bdc0d3810295b6a21";
+const CURVE_V2 = "0x113aC3D59766DC82604d748ff00E9a80cEF00ee6";
 
 const TOKEN_ABI = ["function balanceOf(address) view returns (uint256)"];
 const CURVE_ABI = ["function tokens(string) view returns (address, string, uint256, uint256, bool)"];
