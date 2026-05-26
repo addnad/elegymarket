@@ -221,7 +221,7 @@ Every match is a grief opportunity. The AI agent watches all of them.
 ## How to Trade
 
 1. Connect OKX Wallet or MetaMask to X Layer Mainnet (Chain ID 196)
-2. Browse tokens at [elegymarket.vercel.app/tokens](https://elegymarket.vercel.app/tokens)
+2. Browse tokens at [elegymarkets.xyz/tokens](https://elegymarkets.xyz/tokens)
 3. Buy 1-5 tokens per transaction
 4. Watch the grief score. When it spikes, price follows.
 5. Sell when grief peaks or fades.

@@ -2,7 +2,7 @@
 
 > The first on-chain sentiment market for World Cup fan grief. Every team gets a Grief Token. An AI agent scores real fan sentiment every 30 minutes and pushes it on-chain. Price moves with grief.
 
-**Live:** [elegymarket.vercel.app](https://elegymarket.vercel.app)  
+**Live:** [elegymarkets.xyz](https://elegymarkets.xyz)  
 **Chain:** X Layer Mainnet (Chain ID 196)  
 **Twitter:** [@elegyxyz](https://twitter.com/elegyxyz)
 
