@@ -169,7 +169,7 @@ Building on X Layer meant we could deploy 49 smart contracts (oracle + bonding c
 ## What's On-Chain
 
 - **SentimentOracle** — \`0x234200FF134ddA9B36a1F13E83dEA006aE8A2443\`
-- **GriefBondingCurve** — \`0xd03dfa9133c19b12ad81320bdc0d3810295b6a21\`
+- **GriefBondingCurve** — \`0x113aC3D59766DC82604d748ff00E9a80cEF00ee6\`
 - 48 GriefToken contracts, one per qualified team
 
 All contracts are verified and live on X Layer Mainnet (Chain ID 196).
