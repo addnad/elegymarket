@@ -22,7 +22,7 @@ function getGriefLabel(score: number) {
 }
 
 function DashboardInner() {
-  const { tokens, totalVolume, totalTraders, lastUpdated, refresh } = useElegy()
+  const { tokens, totalVolume, totalTraders } = useElegy()
 
   const highestGrief = Math.max(...tokens.map(t => t.sentimentScore))
   const mostGrieving = tokens.find(t => t.sentimentScore === highestGrief)
