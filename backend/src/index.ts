@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cron from "node-cron";
 import { updateSentiment } from "./agent";
-import { pollMatches, getTodayMatches } from "./football";
+import { pollMatches, getTodayMatches, getTodayTeamCodes } from "./football";
 import { getOKBPrice } from "./price";
 import { TEAM_CODES } from "./teams";
 import { getAllTokens } from "./store";
@@ -93,9 +93,21 @@ app.get("/api/matches/today", async (req, res) => {
 });
 
 // Cron: update sentiment every 30 minutes
-cron.schedule("*/30 * * * *", async () => {
-  console.log("[cron] Running sentiment update for all teams...");
-  for (const code of TEAM_CODES) {
+cron.schedule("0 */6 * * *", async () => {
+  // During tournament: only score teams playing today
+  // Pre-tournament: score all teams
+  let codesToUpdate = TEAM_CODES;
+  try {
+    const todayCodes = await getTodayTeamCodes();
+    if (todayCodes.length > 0) {
+      codesToUpdate = todayCodes;
+      console.log(`[cron] Match day — updating ${todayCodes.length} teams: ${todayCodes.join(", ")}`);
+    } else {
+      console.log("[cron] No matches today — updating all 48 teams");
+    }
+  } catch(e) {}
+
+  for (const code of codesToUpdate) {
     try {
       await updateSentiment(code);
       console.log(`[cron] Updated ${code}`);

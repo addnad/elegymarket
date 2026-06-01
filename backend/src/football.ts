@@ -101,6 +101,18 @@ export async function pollMatches() {
   }
 }
 
+export async function getTodayTeamCodes(): Promise<string[]> {
+  const matches = await fetchMatches();
+  const today = new Date().toISOString().split("T")[0];
+  const todayMatches = matches.filter(m => m.utcDate.startsWith(today));
+  const codes = new Set<string>();
+  for (const m of todayMatches) {
+    if (m.homeTeam?.tla) codes.add(getCode(m.homeTeam.tla));
+    if (m.awayTeam?.tla) codes.add(getCode(m.awayTeam.tla));
+  }
+  return Array.from(codes);
+}
+
 export async function getTodayMatches() {
   const matches = await fetchMatches();
   const today = new Date().toISOString().split("T")[0];
