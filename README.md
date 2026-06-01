@@ -39,7 +39,7 @@ There are three grief triggers:
 ### Backend
 - Node.js, Express, node-cron, ethers.js
 - AI sentiment agent (Claude)
-- Scores all 48 teams every 30 minutes
+- Scores all 48 teams
 - ECDSA signs scores and pushes to oracle on-chain
 - REST API: `/api/update/:teamCode` and `/api/update-all`
 - Hosted on Render
