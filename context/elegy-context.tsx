@@ -166,8 +166,24 @@ export function ElegyProvider({ children }: { children: React.ReactNode }) {
     setIsPortfolioLoading(false)
   }, [balanceData, sellData, buyData, address])
 
-  const totalVolume  = tokens.reduce((sum, t) => sum + t.supply * t.priceUSD, 0)
-  const totalTraders = tokens.reduce((sum, t) => sum + t.supply, 0)
+  const [volumeData, setVolumeData] = useState({ totalVolumeOKB: 0, totalTraders: 0 })
+
+  useEffect(() => {
+    async function fetchVolume() {
+      try {
+        const res = await fetch("http://localhost:3001/api/stats")
+        const data = await res.json()
+        if (data.totalVolumeOKB !== undefined) setVolumeData(data)
+      } catch(e) {}
+    }
+    fetchVolume()
+    const interval = setInterval(fetchVolume, 60_000)
+    return () => clearInterval(interval)
+  }, [])
+
+  const OKB_USD = typeof window !== "undefined" ? (window as any).__OKB_USD || 84 : 84
+  const totalVolume  = volumeData.totalVolumeUSD || volumeData.totalVolumeOKB * OKB_USD
+  const totalTraders = volumeData.totalTraders
   const totalValueUSD = holdings.reduce((sum, h) => sum + h.valueUSD, 0)
   const totalValueOKB = holdings.reduce((sum, h) => sum + h.valueOKB, 0)
   const totalPnlOKB   = holdings.reduce((sum, h) => sum + h.pnlOKB, 0)

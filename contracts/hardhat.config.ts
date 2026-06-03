@@ -37,7 +37,7 @@ export default defineConfig({
     xlayer_mainnet: {
       type: "http",
       chainType: "l1",
-      url: "https://rpc.xlayer.tech",
+      url: "https://xlayer.drpc.org",
       accounts: [PRIVATE_KEY],
     },
   },
